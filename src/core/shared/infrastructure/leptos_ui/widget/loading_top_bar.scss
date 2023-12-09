@@ -1,0 +1,48 @@
+
+.core-shared-loading_top_bar-bar {
+    background-color: #000;
+    height: 4px;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+.core-shared-loading_top_bar-hide {
+    animation: 500ms fadeOut forwards, 500ms slideUp forwards;
+    overflow: hidden;
+}
+
+.core-shared-loading_top_bar-show {
+    animation: 500ms fadeIn forwards, 500ms slideDown forwards;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    } to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        height: 0;
+    } to {
+        height: 100%;
+    }
+}
+@keyframes slideUp {
+    from {
+        height: 100%;
+    } to {
+        height: 0;
+    }
+}

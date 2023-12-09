@@ -1,0 +1,78 @@
+[package]
+edition = "2021"
+name = "tukosmo_infrastructure"
+version = "0.1.0"
+
+[lib]
+path = "../../src/lib_infrastructure.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+acme-micro = { workspace = true, optional = true }
+actix-files = { workspace = true, optional = true }
+actix-identity = { workspace = true, optional = true }
+actix-multipart = { workspace = true, optional = true }
+actix-session = { workspace = true, optional = true }
+actix-web = { workspace = true, optional = true }
+cfg-if.workspace = true
+chrono.workspace = true
+diesel = { workspace = true, optional = true }
+dotenvy = { workspace = true, optional = true }
+futures = { workspace = true, optional = true }
+futures-util = { workspace = true, optional = true }
+leptos.workspace = true
+leptos_actix = { workspace = true, optional = true }
+leptos_icons.workspace = true
+leptos_meta.workspace = true
+leptos_router.workspace = true
+openssl = { workspace = true, optional = true }
+rand = { workspace = true, optional = true }
+rcgen = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true }
+rustls = { workspace = true, optional = true }
+rustls-pemfile = { workspace = true, optional = true }
+serde.workspace = true
+serde_json.workspace = true
+tokio = { workspace = true, optional = true }
+toml = { workspace = true, optional = true }
+tukosmo_application = { path = "../application" }
+tukosmo_domain = { path = "../domain" }
+uuid.workspace = true
+web-sys.workspace = true
+
+[features]
+default = []
+hydrate = [
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate",
+    "tukosmo_application/hydrate",
+    "tukosmo_domain/hydrate"
+]
+ssr = [
+    "dep:acme-micro",
+    "dep:actix-files",
+    "dep:actix-identity",
+    "dep:actix-multipart",
+    "dep:actix-session",
+    "dep:actix-web",
+    "dep:diesel",
+    "dep:dotenvy",
+    "dep:futures",
+    "dep:futures-util",
+    "dep:leptos_actix",
+    "dep:openssl",
+    "dep:rand",
+    "dep:rcgen",
+    "dep:reqwest",
+    "dep:rustls",
+    "dep:rustls-pemfile",
+    "dep:tokio",
+    "dep:toml",
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+    "tukosmo_application/ssr",
+    "tukosmo_domain/ssr"
+]

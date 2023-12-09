@@ -1,0 +1,25 @@
+[package]
+edition = "2021"
+name = "tukosmo_application"
+version = "0.1.0"
+
+[lib]
+path = "../../src/lib_application.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tukosmo_domain = { path = "../domain" }
+uuid.workspace = true
+
+[features]
+default = []
+hydrate = [
+    "tukosmo_domain/hydrate"
+]
+ssr = [
+    "tukosmo_domain/ssr"
+]

@@ -1,0 +1,19 @@
+@use './core/shared/infrastructure/leptos_ui/layout/external_styles/modern-normalize';
+
+.tukosmo-icon {
+    display: inline-block;
+}
+
+.tukosmo-icon svg {
+    display: block;
+}
+
+.tap {
+    @import './core/shared/infrastructure/leptos_ui/layout/tap_layout';
+}
+
+.web {
+    @import './core/shared/infrastructure/leptos_ui/layout/web_layout';
+    @import './core/shared/infrastructure/leptos_ui/widget/loading_screen';
+    @import './core/shared/infrastructure/leptos_ui/widget/loading_top_bar';
+}

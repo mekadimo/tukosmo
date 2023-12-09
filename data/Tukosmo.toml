@@ -1,0 +1,13 @@
+
+admin_email = "test@example.com"
+domain = "localhost"
+http_port = 8001
+https_port = 8443
+mode = "development"
+platform = "debian"
+
+[database]
+host = "tukosmo_db"
+name = "tukosmo"
+password = "tukosmo_db_password"
+user = "tukosmo"

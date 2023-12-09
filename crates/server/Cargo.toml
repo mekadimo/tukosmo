@@ -1,0 +1,14 @@
+[package]
+edition = "2021"
+name = "tukosmo_server"
+version = "0.1.0"
+
+[[bin]]
+name = "tukosmo_server"
+path = "../../src/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio.workspace = true
+tukosmo_infrastructure = { path = "../infrastructure", features = ["ssr"] }

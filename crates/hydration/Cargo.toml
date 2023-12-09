@@ -1,0 +1,18 @@
+[package]
+edition = "2021"
+name = "tukosmo_hydration"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "../../src/lib_hydration.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+leptos = { workspace = true, features = [ "hydrate" ] }
+log.workspace = true
+tukosmo_infrastructure = { path = "../infrastructure", features = ["hydrate"] }
+wasm-bindgen.workspace = true

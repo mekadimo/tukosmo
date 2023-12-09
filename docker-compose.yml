@@ -1,0 +1,29 @@
+version: "3"
+services:
+  tukosmo_web:
+    container_name: tukosmo_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+      - "8443:8443"
+    volumes:
+      - .:/tukosmo
+      - /tukosmo/target
+    depends_on:
+      - tukosmo_db
+    networks:
+      - tukosmo_net
+  tukosmo_db:
+    image: postgres:16
+    container_name: tukosmo_db
+    environment:
+      POSTGRES_USER: tukosmo
+      POSTGRES_PASSWORD: tukosmo_db_password
+      POSTGRES_DB: tukosmo
+    networks:
+      - tukosmo_net
+
+networks:
+  tukosmo_net:

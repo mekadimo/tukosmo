@@ -8,6 +8,7 @@ use tukosmo_application::core::shared::use_case::GlobalUseCase;
 #[cfg(feature = "ssr")]
 use tukosmo_domain::core::shared::model::DomainError;
 use tukosmo_domain::core::shared::model::LocalI18n;
+use tukosmo_domain::core::shared::model::ServerResponse;
 
 #[cfg(feature = "ssr")]
 fn common() -> Result<GlobalUseCase, DomainError> {
@@ -31,17 +32,23 @@ fn common() -> Result<GlobalUseCase, DomainError> {
 #[server(ApiCoreSharedGlobalInitialData)]
 pub async fn initial_data(
     dto: DtoGetInitialData
-) -> Result<DtoInitialData, ServerFnError> {
-    let global_use_case = common()?;
-    let dto_initial_data = global_use_case.get_initial_data(dto)?;
-    Ok(dto_initial_data)
+) -> Result<ServerResponse<DtoInitialData>, ServerFnError> {
+    let response = ServerResponse::build(|| {
+        let global_use_case = common()?;
+        global_use_case.get_initial_data(dto)
+    });
+
+    Ok(response)
 }
 
 #[server(ApiCoreSharedGlobalLocalI18n)]
 pub async fn local_i18n(
     dto: DtoGetLocalI18n
-) -> Result<LocalI18n, ServerFnError> {
-    let global_use_case = common()?;
-    let local_i18n = global_use_case.get_local_i18n(dto)?;
-    Ok(local_i18n)
+) -> Result<ServerResponse<LocalI18n>, ServerFnError> {
+    let response = ServerResponse::build(|| {
+        let global_use_case = common()?;
+        global_use_case.get_local_i18n(dto)
+    });
+
+    Ok(response)
 }

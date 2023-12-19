@@ -4,7 +4,7 @@ use tukosmo_domain::core::shared::model::LocalI18n;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DtoGetInitialData {
-    pub language_code: String,
+    pub language_code: Option<String>,
 }
 
 #[derive(Clone, Deserialize, Serialize)]

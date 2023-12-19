@@ -16,7 +16,7 @@ use leptos_router::Routes;
 use leptos_router::Location;
 use leptos_router::use_location;
 use tukosmo_application::core::shared::dto::DtoGetInitialData;
-use tukosmo_application::core::shared::dto::DtoInitialData;
+use tukosmo_domain::core::shared::model::ServerResponse;
 
 use crate::core::language::leptos_ui::TapAddLanguageView;
 use crate::core::language::leptos_ui::TapDeleteLanguageView;
@@ -94,31 +94,37 @@ fn InitialDataLoader() -> impl IntoView {
         || (),
         move |_| async move {
             let uri_path = current_uri_path.get();
-            let language_code = match
-                navigation::get_language_code_from_uri(&uri_path)
-            {
-                Some(language_code) => language_code,
-                // TODO: Take this value from the default config in the database
-                None => "en".to_string(),
-            };
-            let dto = DtoGetInitialData { language_code };
+            let language_code = navigation::get_language_code_from_uri(
+                &uri_path
+            );
 
-            // TODO: Return DomainError
-            let global_dto = global_api::initial_data(dto).await.unwrap();
-            global_dto
+            let dto = DtoGetInitialData { language_code };
+            let result = global_api::initial_data(dto).await;
+            result
         }
     );
 
     let content = move ||
-        response_data
-            .get()
-            .map(|DtoInitialData { language_code, languages, local_i18n }| {
-                provide_context(
-                    GlobalContext::init(&language_code, languages, local_i18n)
-                );
+        response_data.get().map(|server_response| {
+            // TODO: Look for a better way of managing this error (no unwrap)
+            match server_response.unwrap() {
+                ServerResponse::Response(dto_initial_data) => {
+                    provide_context(
+                        GlobalContext::init(
+                            &dto_initial_data.language_code,
+                            dto_initial_data.languages,
+                            dto_initial_data.local_i18n
+                        )
+                    );
 
-                view! { <Outlet/> }
-            });
+                    view! { <Outlet/> }
+                }
+                ServerResponse::Error(_e) => {
+                    // TODO: Look for a better way of managing this error
+                    panic!("Error during initialization.");
+                }
+            }
+        });
 
     view! {
         <Transition fallback=move || view! { <LoadingScreen /> }>

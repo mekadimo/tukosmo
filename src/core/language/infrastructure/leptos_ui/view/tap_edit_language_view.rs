@@ -16,7 +16,6 @@ use tukosmo_application::core::language::dto::DtoEditLanguage;
 use tukosmo_application::core::language::dto::DtoGetLanguage;
 use tukosmo_domain::core::language::model::Language;
 use tukosmo_domain::core::language::model::LanguageCode;
-use tukosmo_domain::core::language::model::LanguageId;
 use tukosmo_domain::core::shared::model::ServerResponse;
 use tukosmo_domain::core::shared::model::ServerResponseError;
 
@@ -42,12 +41,9 @@ pub fn TapEditLanguageView() -> impl IntoView {
     let response_data = create_resource(
         move || params.get(),
         move |params| async move {
-            let language_id_string = params.get("id").unwrap();
-            // TODO: Ok(ServerResponse::Error(error)) instead of unwrap()
-            let language_id =
-                LanguageId::from_string(language_id_string).unwrap();
+            let language_id = params.get("id").unwrap();
 
-            let dto = DtoGetLanguage { language_id };
+            let dto = DtoGetLanguage { language_id: language_id.to_string() };
             let result = language_api::get(dto).await;
             result
         }
@@ -113,7 +109,7 @@ fn TapEditLanguageViewContent(language: Language) -> impl IntoView {
             let dto_form = form.get_value().get_dto();
             let dto_form_code = dto_form.code.clone();
             let dto = DtoEditLanguage {
-                language_id: stored_language_id.get_value(),
+                language_id: stored_language_id.get_value().value().to_string(),
                 form: dto_form,
             };
             let server_response_edit = language_api::edit(dto).await;

@@ -26,15 +26,18 @@ impl GlobalUseCase {
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
 
-            let local_i18n = data_repository.get_local_i18n(
-                &dto.language_code
-            )?;
+            let language_code = match dto.language_code {
+                Some(language_code) => language_code,
+                // TODO: Take this value from the default config in the database
+                None => "en".to_string(),
+            };
+            let local_i18n = data_repository.get_local_i18n(&language_code)?;
             let languages = language_repository.find(
                 LanguageSearchCriteria::all_ordered()
             )?;
 
             Ok(DtoInitialData {
-                language_code: dto.language_code,
+                language_code,
                 languages,
                 local_i18n,
             })

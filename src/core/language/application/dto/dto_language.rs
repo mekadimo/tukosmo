@@ -2,7 +2,6 @@ use serde::Deserialize;
 use serde::Serialize;
 use tukosmo_domain::core::language::model::I18nTextValue;
 use tukosmo_domain::core::language::model::Language;
-use tukosmo_domain::core::language::model::LanguageId;
 
 use crate::core::shared::dto::DtoDeleteForm;
 
@@ -14,18 +13,18 @@ pub struct DtoAddLanguage {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DtoDeleteLanguage {
     pub form: DtoDeleteForm,
-    pub language_id: LanguageId,
+    pub language_id: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DtoEditLanguage {
     pub form: DtoLanguageForm,
-    pub language_id: LanguageId,
+    pub language_id: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DtoGetLanguage {
-    pub language_id: LanguageId,
+    pub language_id: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

@@ -16,7 +16,6 @@ use leptos_router::use_params_map;
 use tukosmo_application::core::language::dto::DtoDeleteLanguage;
 use tukosmo_application::core::language::dto::DtoGetLanguage;
 use tukosmo_domain::core::language::model::Language;
-use tukosmo_domain::core::language::model::LanguageId;
 use tukosmo_domain::core::shared::model::ServerResponse;
 use tukosmo_domain::core::shared::model::ServerResponseError;
 
@@ -41,12 +40,9 @@ pub fn TapDeleteLanguageView() -> impl IntoView {
     let response_data = create_resource(
         move || params.get(),
         move |params| async move {
-            let language_id_string = params.get("id").unwrap();
-            // TODO: Ok(ServerResponse::Error(error)) instead of unwrap()
-            let language_id =
-                LanguageId::from_string(language_id_string).unwrap();
+            let language_id = params.get("id").unwrap();
 
-            let dto = DtoGetLanguage { language_id };
+            let dto = DtoGetLanguage { language_id: language_id.to_string() };
             let result = language_api::get(dto).await;
             result
         }
@@ -112,7 +108,7 @@ fn TapDeleteLanguageViewContent(language: Language) -> impl IntoView {
             let dto_form = form.get_value().get_dto();
             let dto = DtoDeleteLanguage {
                 form: dto_form,
-                language_id: stored_language_id.get_value(),
+                language_id: stored_language_id.get_value().value().to_string(),
             };
             let server_response_delete = language_api::delete(dto).await;
 

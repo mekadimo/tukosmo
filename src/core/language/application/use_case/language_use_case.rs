@@ -3,6 +3,7 @@ use std::rc::Rc;
 use tukosmo_domain::core::language::error;
 use tukosmo_domain::core::language::model::Language;
 use tukosmo_domain::core::language::model::LanguageCode;
+use tukosmo_domain::core::language::model::LanguageId;
 use tukosmo_domain::core::language::model::LanguageSearchCriteria;
 use tukosmo_domain::core::shared::error as error_shared;
 use tukosmo_domain::core::shared::model::DomainError;
@@ -49,13 +50,15 @@ impl LanguageUseCase {
 
     pub fn delete(&self, dto: DtoDeleteLanguage) -> Result<(), DomainError> {
         run_transaction(self.transaction_executor.borrow_mut(), |transaction| {
+            let language_id = LanguageId::from_string(&dto.language_id)?;
+
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
 
             if !dto.form.requested {
                 return Err(error_shared::FIELD_CANNOT_BE_EMPTY);
             }
-            language_repository.delete(dto.language_id)?;
+            language_repository.delete(language_id)?;
 
             Ok(())
         })
@@ -63,6 +66,8 @@ impl LanguageUseCase {
 
     pub fn edit(&self, dto: DtoEditLanguage) -> Result<(), DomainError> {
         run_transaction(self.transaction_executor.borrow_mut(), |transaction| {
+            let language_id = LanguageId::from_string(&dto.language_id)?;
+
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
 
@@ -70,14 +75,14 @@ impl LanguageUseCase {
             let other_language_has_same_code = language_repository.exists(
                 LanguageSearchCriteria::has_code_and_not_id(
                     language_code,
-                    dto.language_id.clone()
+                    language_id.clone()
                 ).filter
             )?;
             if other_language_has_same_code {
                 return Err(error::LANGUAGE_CODE_ALREADY_EXISTS);
             }
 
-            let mut language = language_repository.get(dto.language_id)?;
+            let mut language = language_repository.get(language_id)?;
             language.modify(
                 dto.form.code,
                 dto.form.name,
@@ -94,10 +99,11 @@ impl LanguageUseCase {
 
     pub fn get(&self, dto: DtoGetLanguage) -> Result<Language, DomainError> {
         run_transaction(self.transaction_executor.borrow_mut(), |transaction| {
+            let language_id = LanguageId::from_string(&dto.language_id)?;
+
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
-
-            let language = language_repository.get(dto.language_id)?;
+            let language = language_repository.get(language_id)?;
 
             Ok(language)
         })

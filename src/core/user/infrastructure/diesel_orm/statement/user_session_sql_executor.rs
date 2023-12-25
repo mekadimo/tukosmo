@@ -40,6 +40,8 @@ impl ModelSqlExecutor<
     user_session::table
 >
 for UserSessionSqlExecutor {
+    const TABLE: user_session::table = user_session::table;
+
     fn delete(
         &mut self,
         filter_criteria: UserSessionSearchFilterCriteria
@@ -70,10 +72,6 @@ for UserSessionSqlExecutor {
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>> {
         Rc::clone(&self.connection)
-    }
-
-    fn get_table() -> user_session::table {
-        user_session::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {

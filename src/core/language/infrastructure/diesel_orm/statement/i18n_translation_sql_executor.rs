@@ -39,6 +39,8 @@ impl ModelSqlExecutor<
     i18n_translation::table
 >
 for I18nTranslationSqlExecutor {
+    const TABLE: i18n_translation::table = i18n_translation::table;
+
     fn delete(
         &mut self,
         filter_criteria: I18nTranslationSearchFilterCriteria
@@ -101,10 +103,6 @@ for I18nTranslationSqlExecutor {
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>> {
         Rc::clone(&self.connection)
-    }
-
-    fn get_table() -> i18n_translation::table {
-        i18n_translation::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {

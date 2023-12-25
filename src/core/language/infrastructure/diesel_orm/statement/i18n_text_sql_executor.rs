@@ -37,6 +37,8 @@ impl ModelSqlExecutor<
     i18n_text::table
 >
 for I18nTextSqlExecutor {
+    const TABLE: i18n_text::table = i18n_text::table;
+
     fn delete(
         &mut self,
         filter_criteria: I18nTextSearchFilterCriteria
@@ -72,10 +74,6 @@ for I18nTextSqlExecutor {
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>> {
         Rc::clone(&self.connection)
-    }
-
-    fn get_table() -> i18n_text::table {
-        i18n_text::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {

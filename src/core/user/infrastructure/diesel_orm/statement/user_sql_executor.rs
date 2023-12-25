@@ -41,6 +41,8 @@ impl ModelSqlExecutor<
     user_::table
 >
 for UserSqlExecutor {
+    const TABLE: user_::table = user_::table;
+
     fn delete(
         &mut self,
         filter_criteria: UserSearchFilterCriteria
@@ -79,10 +81,6 @@ for UserSqlExecutor {
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>> {
         Rc::clone(&self.connection)
-    }
-
-    fn get_table() -> user_::table {
-        user_::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {

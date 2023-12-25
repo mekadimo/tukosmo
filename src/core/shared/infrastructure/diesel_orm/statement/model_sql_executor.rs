@@ -33,6 +33,8 @@ pub trait ModelSqlExecutor<DbModel, Rows, SearchCriteria, SearchFilterCriteria, 
             diesel::backend::sql_dialect::batch_insert_support::PostgresLikeBatchInsertSupport
         >
 {
+    const TABLE: Table;
+
     // TODO: Generalize implementation using generic types
     fn delete(
         &mut self,
@@ -41,8 +43,6 @@ pub trait ModelSqlExecutor<DbModel, Rows, SearchCriteria, SearchFilterCriteria, 
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>>;
 
-    fn get_table() -> Table;
-
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self;
 
     fn insert(&mut self, db_model: DbModel) -> Result<(), DomainError> {
@@ -50,10 +50,8 @@ pub trait ModelSqlExecutor<DbModel, Rows, SearchCriteria, SearchFilterCriteria, 
         let mut connection = connection.borrow_mut();
         let connection = connection.deref_mut();
 
-        let table = Self::get_table();
-
         let result = diesel
-            ::insert_into(table)
+            ::insert_into(Self::TABLE)
             .values(db_model)
             .execute(connection);
 
@@ -71,10 +69,8 @@ pub trait ModelSqlExecutor<DbModel, Rows, SearchCriteria, SearchFilterCriteria, 
         let mut connection = connection.borrow_mut();
         let connection = connection.deref_mut();
 
-        let table = Self::get_table();
-
         let result = diesel
-            ::insert_into(table)
+            ::insert_into(Self::TABLE)
             .values(db_models)
             .execute(connection);
 

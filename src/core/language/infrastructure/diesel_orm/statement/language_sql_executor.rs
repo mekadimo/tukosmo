@@ -41,6 +41,8 @@ impl ModelSqlExecutor<
     language::table
 >
 for LanguageSqlExecutor {
+    const TABLE: language::table = language::table;
+
     fn delete(
         &mut self,
         filter_criteria: LanguageSearchFilterCriteria
@@ -76,10 +78,6 @@ for LanguageSqlExecutor {
 
     fn get_connection(&mut self) -> Rc<RefCell<PgConnection>> {
         Rc::clone(&self.connection)
-    }
-
-    fn get_table() -> language::table {
-        language::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {

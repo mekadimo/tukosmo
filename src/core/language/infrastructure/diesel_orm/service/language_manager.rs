@@ -5,6 +5,7 @@ use tukosmo_domain::core::language::error;
 use tukosmo_domain::core::language::model::I18nText;
 use tukosmo_domain::core::language::model::I18nTextId;
 use tukosmo_domain::core::language::model::I18nTranslation;
+use tukosmo_domain::core::language::model::I18nTranslationText;
 use tukosmo_domain::core::language::model::Language;
 use tukosmo_domain::core::language::model::LanguageId;
 use tukosmo_domain::core::language::model::LanguageSearchCriteria;
@@ -33,7 +34,7 @@ impl LanguageManager {
 
         let original_name_translation = I18nTranslation::new(
             language.id,
-            language.original_name.value().to_string()
+            I18nTranslationText::new(language.original_name.value().to_string())
         );
         let db_original_name_translation = DbI18nTranslation::from_domain(
             original_name_translation,

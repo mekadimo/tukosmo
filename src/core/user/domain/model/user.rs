@@ -70,38 +70,35 @@ const USER_PASSWORD_MAX_LENGTH: &'static usize = &32;
 impl User {
     pub fn modify(
         &mut self,
-        email_value: String,
+        email: UserEmail,
         name_value: I18nTextValue,
-        is_admin_value: bool,
-        is_suspended_value: bool
+        is_admin: UserIsAdmin,
+        is_suspended: UserIsSuspended
     ) -> Result<(), DomainError> {
-        self.email = UserEmail::new(email_value)?;
+        self.email = email;
         self.name.modify(
             name_value,
             Self::validate_name_default_value,
             Self::validate_name_translation_value
         )?;
-        self.is_admin = UserIsAdmin::new(is_admin_value);
-        self.is_suspended = UserIsSuspended::new(is_suspended_value);
+        self.is_admin = is_admin;
+        self.is_suspended = is_suspended;
         self.update_date = UserUpdateDate::new();
         Ok(())
     }
 
     pub fn new(
-        email_value: String,
+        email: UserEmail,
         name_value: I18nTextValue,
-        is_admin_value: bool,
-        is_suspended_value: bool
+        is_admin: UserIsAdmin,
+        is_suspended: UserIsSuspended
     ) -> Result<Self, DomainError> {
         let id = UserId::new();
-        let email = UserEmail::new(email_value)?;
         let name = I18nText::new(
             name_value,
             Self::validate_name_default_value,
             Self::validate_name_translation_value
         )?;
-        let is_admin = UserIsAdmin::new(is_admin_value);
-        let is_suspended = UserIsSuspended::new(is_suspended_value);
         let creation_date = UserCreationDate::new();
         let update_date = UserUpdateDate::new();
 
@@ -154,7 +151,7 @@ impl UserEmail {
         Self(value)
     }
 
-    fn new(value: String) -> Result<Self, DomainError> {
+    pub fn new(value: String) -> Result<Self, DomainError> {
         match Self::validate(&value) {
             Some(validation_error) => Err(validation_error),
             None => Ok(Self(value)),
@@ -210,7 +207,7 @@ impl UserIsAdmin {
         Self(value)
     }
 
-    fn new(value: bool) -> Self {
+    pub fn new(value: bool) -> Self {
         Self(value)
     }
 
@@ -224,7 +221,7 @@ impl UserIsSuspended {
         Self(value)
     }
 
-    fn new(value: bool) -> Self {
+    pub fn new(value: bool) -> Self {
         Self(value)
     }
 

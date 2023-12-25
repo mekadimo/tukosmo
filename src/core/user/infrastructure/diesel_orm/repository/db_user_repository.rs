@@ -10,7 +10,9 @@ use tukosmo_domain::core::user::model::UserSearchCriteria;
 use tukosmo_domain::core::user::model::UserSearchFilterCriteria;
 use tukosmo_domain::core::user::model::UserSession;
 use tukosmo_domain::core::user::model::UserSessionId;
+use tukosmo_domain::core::user::model::UserSessionIp;
 use tukosmo_domain::core::user::model::UserSessionSearchCriteria;
+use tukosmo_domain::core::user::model::UserSessionUserAgentRequestHeader;
 use tukosmo_domain::core::user::repository::UserRepository;
 
 use super::super::service::UserManager;
@@ -110,15 +112,15 @@ impl UserRepository for DbUserRepository {
         &mut self,
         user_email: UserEmail,
         plaintext_password: UserPlaintextPassword,
-        ip_value: String,
-        user_agent_request_header: String
+        ip: UserSessionIp,
+        user_agent_request_header: UserSessionUserAgentRequestHeader
     ) -> Result<UserSession, DomainError> {
         let user = self.user_manager.get_by_email(user_email)?;
         self.user_manager.verify_password(user.id.clone(), plaintext_password)?;
 
         let user_session = UserSession::new(
             user.id,
-            ip_value,
+            ip,
             user_agent_request_header
         )?;
         self.user_session_manager.add(user_session.clone())?;

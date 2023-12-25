@@ -7,6 +7,7 @@ use uuid::Uuid;
 use crate::core::shared::error;
 use crate::core::shared::model::DomainError;
 use super::I18nTranslation;
+use super::I18nTranslationText;
 use super::LanguageId;
 
 #[derive(Clone, Deserialize, PartialEq, Serialize)]
@@ -79,7 +80,7 @@ impl I18nText {
                     .find(|t| t.language_id.value() == &language_id)
             {
                 if !text_value.trim().is_empty() {
-                    translation.modify(text_value);
+                    translation.modify(I18nTranslationText::new(text_value));
                 } else {
                     self.translations.retain(
                         |t| t.language_id.value() != &language_id
@@ -90,7 +91,7 @@ impl I18nText {
                     self.translations.push(
                         I18nTranslation::new(
                             LanguageId::from(language_id),
-                            text_value
+                            I18nTranslationText::new(text_value)
                         )
                     );
                 }
@@ -143,7 +144,7 @@ impl I18nText {
             .map(|(language_id, text_value)| {
                 I18nTranslation::new(
                     LanguageId::from(*language_id),
-                    text_value.clone()
+                    I18nTranslationText::new(text_value.clone())
                 )
             })
             .collect();

@@ -69,36 +69,33 @@ const LANGUAGE_CODE_MIN_LENGTH: &'static usize = &2;
 impl Language {
     pub fn modify(
         &mut self,
-        code_value: String,
+        code: LanguageCode,
         name_value: I18nTextValue,
-        original_name_value: String,
-        website_title_value: String,
-        website_subtitle_value: String
+        original_name: LanguageOriginalName,
+        website_title: LanguageWebsiteTitle,
+        website_subtitle: LanguageWebsiteSubtitle
     ) -> Result<(), DomainError> {
-        self.code = LanguageCode::new(code_value)?;
+        self.code = code;
         self.name.modify(
             name_value,
             Self::validate_name_default_value,
             Self::validate_name_translation_value
         )?;
         self.update_date = LanguageUpdateDate::new();
-        self.original_name = LanguageOriginalName::new(original_name_value)?;
-        self.website_title = LanguageWebsiteTitle::new(website_title_value)?;
-        self.website_subtitle = LanguageWebsiteSubtitle::new(
-            website_subtitle_value
-        )?;
+        self.original_name = original_name;
+        self.website_title = website_title;
+        self.website_subtitle = website_subtitle;
         Ok(())
     }
 
     pub fn new(
-        code_value: String,
+        code: LanguageCode,
         name_value: I18nTextValue,
-        original_name_value: String,
-        website_title_value: String,
-        website_subtitle_value: String
+        original_name: LanguageOriginalName,
+        website_title: LanguageWebsiteTitle,
+        website_subtitle: LanguageWebsiteSubtitle
     ) -> Result<Self, DomainError> {
         let id = LanguageId::new();
-        let code = LanguageCode::new(code_value)?;
         let name = I18nText::new(
             name_value,
             Self::validate_name_default_value,
@@ -106,11 +103,9 @@ impl Language {
         )?;
         let creation_date = LanguageCreationDate::new();
         let update_date = LanguageUpdateDate::new();
-        let original_name = LanguageOriginalName::new(original_name_value)?;
-        let website_title = LanguageWebsiteTitle::new(website_title_value)?;
-        let website_subtitle = LanguageWebsiteSubtitle::new(
-            website_subtitle_value
-        )?;
+        let original_name = original_name;
+        let website_title = website_title;
+        let website_subtitle = website_subtitle;
 
         Ok(Language {
             code,
@@ -147,7 +142,7 @@ impl LanguageCode {
         Self(value)
     }
 
-    fn new(value: String) -> Result<Self, DomainError> {
+    pub fn new(value: String) -> Result<Self, DomainError> {
         match Self::validate(&value) {
             Some(validation_error) => Err(validation_error),
             None => Ok(Self(value)),
@@ -215,7 +210,7 @@ impl LanguageOriginalName {
         Self(value)
     }
 
-    fn new(value: String) -> Result<Self, DomainError> {
+    pub fn new(value: String) -> Result<Self, DomainError> {
         match Self::validate(&value) {
             Some(validation_error) => Err(validation_error),
             None => Ok(Self(value)),
@@ -308,7 +303,7 @@ impl LanguageWebsiteSubtitle {
         Self(value)
     }
 
-    fn new(value: String) -> Result<Self, DomainError> {
+    pub fn new(value: String) -> Result<Self, DomainError> {
         match Self::validate(&value) {
             Some(validation_error) => Err(validation_error),
             None => Ok(Self(value)),
@@ -332,7 +327,7 @@ impl LanguageWebsiteTitle {
         Self(value)
     }
 
-    fn new(value: String) -> Result<Self, DomainError> {
+    pub fn new(value: String) -> Result<Self, DomainError> {
         match Self::validate(&value) {
             Some(validation_error) => Err(validation_error),
             None => Ok(Self(value)),

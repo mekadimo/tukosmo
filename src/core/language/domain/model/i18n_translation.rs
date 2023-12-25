@@ -45,14 +45,13 @@ pub struct I18nTranslationText(String);
 pub struct I18nTranslationUpdateDate(DateTime<Utc>);
 
 impl I18nTranslation {
-    pub fn modify(&mut self, text_value: String) {
-        self.text = I18nTranslationText::new(text_value);
+    pub fn modify(&mut self, text_value: I18nTranslationText) {
+        self.text = text_value;
         self.update_date = I18nTranslationUpdateDate::new();
     }
 
-    pub fn new(language_id: LanguageId, text_value: String) -> Self {
+    pub fn new(language_id: LanguageId, text: I18nTranslationText) -> Self {
         let id = I18nTranslationId::new();
-        let text = I18nTranslationText::new(text_value);
         let creation_date = I18nTranslationCreationDate::new();
         let update_date = I18nTranslationUpdateDate::new();
         I18nTranslation {
@@ -155,7 +154,7 @@ impl I18nTranslationText {
         Self(value)
     }
 
-    fn new(value: String) -> Self {
+    pub fn new(value: String) -> Self {
         Self(value)
     }
 

@@ -66,21 +66,19 @@ pub struct UserSessionUserAgentRequestHeader(String);
 impl UserSession {
     pub fn new(
         user_id: UserId,
-        ip_value: String,
-        user_agent_request_header: String
+        ip: UserSessionIp,
+        user_agent_request_header: UserSessionUserAgentRequestHeader
     ) -> Result<Self, DomainError> {
         let id = UserSessionId::new();
         let csrf_token = UserSessionCsrfToken::new();
-        let ip = UserSessionIp::new(ip_value);
-        let browser = UserBrowser::from_user_agent(&user_agent_request_header);
+        let browser = UserBrowser::from_user_agent(
+            user_agent_request_header.value()
+        );
         let platform = UserPlatform::from_user_agent(
-            &user_agent_request_header
+            user_agent_request_header.value()
         );
         let creation_date = UserSessionCreationDate::new();
         let last_request_date = UserSessionLastRequestDate::new();
-        let user_agent_request_header = UserSessionUserAgentRequestHeader::new(
-            user_agent_request_header
-        );
 
         Ok(UserSession {
             browser,
@@ -176,7 +174,7 @@ impl UserSessionIp {
         Self(value)
     }
 
-    fn new(value: String) -> Self {
+    pub fn new(value: String) -> Self {
         Self(value)
     }
 
@@ -237,7 +235,7 @@ impl UserSessionUserAgentRequestHeader {
         Self(value)
     }
 
-    fn new(value: String) -> Self {
+    pub fn new(value: String) -> Self {
         Self(value)
     }
 

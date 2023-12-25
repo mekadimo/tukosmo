@@ -4,7 +4,10 @@ use tukosmo_domain::core::language::error;
 use tukosmo_domain::core::language::model::Language;
 use tukosmo_domain::core::language::model::LanguageCode;
 use tukosmo_domain::core::language::model::LanguageId;
+use tukosmo_domain::core::language::model::LanguageOriginalName;
 use tukosmo_domain::core::language::model::LanguageSearchCriteria;
+use tukosmo_domain::core::language::model::LanguageWebsiteSubtitle;
+use tukosmo_domain::core::language::model::LanguageWebsiteTitle;
 use tukosmo_domain::core::shared::error as error_shared;
 use tukosmo_domain::core::shared::model::DomainError;
 use tukosmo_domain::core::shared::model::TransactionExecutor;
@@ -36,11 +39,11 @@ impl LanguageUseCase {
             }
 
             let language = Language::new(
-                dto.form.code,
+                LanguageCode::new(dto.form.code)?,
                 dto.form.name,
-                dto.form.original_name,
-                dto.form.website_title,
-                dto.form.website_subtitle
+                LanguageOriginalName::new(dto.form.original_name)?,
+                LanguageWebsiteTitle::new(dto.form.website_title)?,
+                LanguageWebsiteSubtitle::new(dto.form.website_subtitle)?
             )?;
 
             language_repository.add(language)?;
@@ -84,11 +87,11 @@ impl LanguageUseCase {
 
             let mut language = language_repository.get(language_id)?;
             language.modify(
-                dto.form.code,
+                LanguageCode::new(dto.form.code)?,
                 dto.form.name,
-                dto.form.original_name,
-                dto.form.website_title,
-                dto.form.website_subtitle
+                LanguageOriginalName::new(dto.form.original_name)?,
+                LanguageWebsiteTitle::new(dto.form.website_title)?,
+                LanguageWebsiteSubtitle::new(dto.form.website_subtitle)?
             )?;
 
             language_repository.update(language)?;

@@ -7,7 +7,9 @@ use super::super::model::UserSearchCriteria;
 use super::super::model::UserSearchFilterCriteria;
 use super::super::model::UserSession;
 use super::super::model::UserSessionId;
+use super::super::model::UserSessionIp;
 use super::super::model::UserSessionSearchCriteria;
+use super::super::model::UserSessionUserAgentRequestHeader;
 
 pub trait UserRepository {
     fn add(
@@ -56,8 +58,8 @@ pub trait UserRepository {
         &mut self,
         user_email: UserEmail,
         plaintext_password: UserPlaintextPassword,
-        ip_value: String,
-        user_agent_request_header: String
+        ip: UserSessionIp,
+        user_agent_request_header: UserSessionUserAgentRequestHeader
     ) -> Result<UserSession, DomainError>;
 
     fn logout(

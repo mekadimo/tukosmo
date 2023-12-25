@@ -8,7 +8,6 @@ use tukosmo_domain::core::user::error;
 use tukosmo_domain::core::user::model::User;
 use tukosmo_domain::core::user::model::UserEmail;
 use tukosmo_domain::core::user::model::UserId;
-use tukosmo_domain::core::user::model::UserIsAdmin;
 use tukosmo_domain::core::user::model::UserPlaintextPassword;
 use tukosmo_domain::core::user::model::UserSearchCriteria;
 use tukosmo_domain::core::user::model::UserSearchFilterCriteria;
@@ -63,21 +62,6 @@ impl UserManager {
     ) -> Result<i64, DomainError> {
         let total = self.user_sql.select_count(filter_criteria)?;
         Ok(total)
-    }
-
-    pub fn delete(&mut self, user_id: UserId) -> Result<(), DomainError> {
-        let total_users = self.user_sql.select_count(
-            UserSearchCriteria::is_admin(UserIsAdmin::new(true)).filter
-        )?;
-        if total_users == 1 {
-            return Err(error::CANNOT_DELETE_LAST_ADMIN_USER_LEFT);
-        }
-
-        let user = self.get(user_id)?;
-        self.user_sql.delete(UserSearchCriteria::has_id(user.id).filter)?;
-        self.i18n_text_manager.delete(user.name.id)?;
-
-        Ok(())
     }
 
     pub fn exists(
@@ -156,6 +140,8 @@ impl UserManager {
         }
     }
 
+    // TODO: Check an admin cannot suspend its own user account or disable admin
+    // (add UserSession to update arguments, and validate that if UserId ==)
     pub fn update(&mut self, user: User) -> Result<(), DomainError> {
         let db_previous_users = self.user_sql.select(
             UserSearchCriteria::has_id(user.id.clone())

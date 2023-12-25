@@ -353,10 +353,16 @@ fn SidebarDataMenu() -> impl IntoView {
                 </a>
             </li>
 
-            <SidebarElement>
-                <icon::Users />
-                {t!(main.users)}
-            </SidebarElement>
+            <li>
+                <a
+                    href=move || navigation::path_admin_users(
+                        &current_language_reader.get().code
+                    )
+                >
+                    <icon::Users />
+                    {t!(main.users)}
+                </a>
+            </li>
 
             <SidebarElement>
                 <icon::Document />

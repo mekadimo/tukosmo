@@ -36,6 +36,7 @@ pub fn TapFormCheckboxField(
                 )
             >
                 <input
+                    class="mr-2"
                     on:change=move |_event| {
                         value.get_value().update(|draft| {
                             *draft = !*draft;
@@ -44,10 +45,12 @@ pub fn TapFormCheckboxField(
                     prop:checked=value.get_value().signal
                     type="checkbox"
                 />
-                {move || text()}
-                <Show when=move || required>
-                    "*"
-                </Show>
+                <span>
+                    {move || text()}
+                    <Show when=move || required>
+                        "*"
+                    </Show>
+                </span>
             </label>
             <Show when=move || value.get_value().has_error()>
                 <p class="help is-danger">
@@ -144,6 +147,52 @@ pub fn TapFormPage(
                     </div>
                 </div>
             </div>
+        </div>
+    }
+}
+
+#[component]
+pub fn TapFormPasswordField(
+    name: Box<dyn Fn() -> String>,
+    required: bool,
+    value: StoredValue<FormFieldValue<String>>
+) -> impl IntoView {
+    view! {
+        <div class="field">
+            <label class="label">
+                {move || name()}
+                <Show when=move || required>
+                    "*"
+                </Show>
+            </label>
+            <p class="control">
+                <input
+                    class="input"
+                    class=(
+                        "is-danger",
+                        move || value.get_value().has_error(),
+                    )
+                    on:input=move |event| {
+                        value.get_value().set(event_target_value(&event));
+                    }
+                    prop:value=value.get_value().signal
+                    type="password"
+                />
+            </p>
+            <Show when=move || value.get_value().has_error()>
+                <p class="help is-danger">
+                    {move || {
+                        let domain_error = value.get_value().get_validation_error();
+                        match domain_error {
+                            Some(domain_error) => {
+                                let full_code = domain_error.get_full_code();
+                                t_error!(&full_code, &domain_error.context)()
+                            },
+                            None => "".to_string(),
+                        }
+                    }}
+                </p>
+            </Show>
         </div>
     }
 }

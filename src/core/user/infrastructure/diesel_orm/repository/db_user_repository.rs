@@ -64,11 +64,6 @@ impl UserRepository for DbUserRepository {
         Ok(total)
     }
 
-    fn delete(&mut self, user_id: UserId) -> Result<(), DomainError> {
-        self.user_manager.delete(user_id)?;
-        Ok(())
-    }
-
     fn exists(
         &mut self,
         filter_criteria: UserSearchFilterCriteria

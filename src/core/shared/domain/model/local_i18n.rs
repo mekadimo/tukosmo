@@ -174,6 +174,7 @@ pub struct LocalI18nMain {
     pub cpu_current_usage: String,
     pub create_tag: String,
     pub create_user: String,
+    pub creation: String,
     pub current_favicon: String,
     pub current_password: String,
     pub current_size: String,

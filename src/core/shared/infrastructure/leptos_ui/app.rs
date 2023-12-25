@@ -25,6 +25,9 @@ use crate::core::language::leptos_ui::TapLanguagesView;
 use crate::core::shared::leptos_actix_server::api::global_api;
 use crate::core::shared::leptos_ui::context::GlobalContext;
 use crate::core::shared::leptos_ui::widget::LoadingScreen;
+use crate::core::user::leptos_ui::TapAddUserView;
+use crate::core::user::leptos_ui::TapEditUserView;
+use crate::core::user::leptos_ui::TapUsersView;
 use crate::core::user::leptos_ui::WebLoginView;
 use super::RootView;
 use super::TapDashboardView;
@@ -54,6 +57,7 @@ pub fn App() -> impl IntoView {
                         path=navigation::CODE_PATH_ADMIN_DASHBOARD
                         view=TapDashboardView
                     />
+
                     <Route
                         path=navigation::CODE_PATH_ADMIN_LANGUAGES
                         view=TapLanguagesView
@@ -70,6 +74,20 @@ pub fn App() -> impl IntoView {
                         path=navigation::CODE_PATH_ADMIN_LANGUAGES_EDIT
                         view=TapEditLanguageView
                     />
+
+                    <Route
+                        path=navigation::CODE_PATH_ADMIN_USERS
+                        view=TapUsersView
+                    />
+                    <Route
+                        path=navigation::CODE_PATH_ADMIN_USERS_ADD
+                        view=TapAddUserView
+                    />
+                    <Route
+                        path=navigation::CODE_PATH_ADMIN_USERS_EDIT
+                        view=TapEditUserView
+                    />
+
                     <Route
                         path=navigation::CODE_PATH_LOGIN
                         view=WebLoginView

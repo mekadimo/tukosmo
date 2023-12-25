@@ -214,6 +214,10 @@ impl UserIsAdmin {
     pub fn value(&self) -> &bool {
         &self.0
     }
+
+    pub fn validate(_value: &bool) -> Option<DomainError> {
+        None
+    }
 }
 
 impl UserIsSuspended {
@@ -227,6 +231,10 @@ impl UserIsSuspended {
 
     pub fn value(&self) -> &bool {
         &self.0
+    }
+
+    pub fn validate(_value: &bool) -> Option<DomainError> {
+        None
     }
 }
 

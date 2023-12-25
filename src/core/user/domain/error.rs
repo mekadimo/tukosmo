@@ -10,6 +10,12 @@ pub const CANNOT_DELETE_LAST_ADMIN_USER_LEFT: DomainError = get_domain_error(
     DomainErrorVisibility::Public
 );
 
+pub const USER_EMAIL_ALREADY_EXISTS: DomainError = get_domain_error(
+    "USER_EMAIL_ALREADY_EXISTS",
+    "User email already exists.",
+    DomainErrorVisibility::Public
+);
+
 pub const USER_NOT_FOUND: DomainError = get_domain_error(
     "USER_NOT_FOUND",
     "User not found.",
@@ -19,6 +25,12 @@ pub const USER_NOT_FOUND: DomainError = get_domain_error(
 pub const USER_PASSWORD_NOT_CORRECT: DomainError = get_domain_error(
     "USER_PASSWORD_NOT_CORRECT",
     "User password not correct.",
+    DomainErrorVisibility::Public
+);
+
+pub const USER_REPEATED_PASSWORD_DOES_NOT_MATCH: DomainError = get_domain_error(
+    "USER_REPEATED_PASSWORD_DOES_NOT_MATCH",
+    "User repeated password does not match.",
     DomainErrorVisibility::Public
 );
 

@@ -30,8 +30,6 @@ pub trait UserRepository {
         criteria: UserSearchFilterCriteria
     ) -> Result<i64, DomainError>;
 
-    fn delete(&mut self, user_id: UserId) -> Result<(), DomainError>;
-
     fn exists(
         &mut self,
         criteria: UserSearchFilterCriteria

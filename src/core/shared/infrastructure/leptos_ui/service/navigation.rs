@@ -1,5 +1,6 @@
 use tukosmo_domain::core::language::model::LanguageCode;
 use tukosmo_domain::core::language::model::LanguageId;
+use tukosmo_domain::core::user::model::UserId;
 
 pub const CODE_PATH_ADMIN: &'static str = "/:language_code/admin";
 pub const CODE_PATH_ADMIN_DASHBOARD: &'static str =
@@ -12,6 +13,13 @@ pub const CODE_PATH_ADMIN_LANGUAGES_DELETE: &'static str =
     "/:language_code/admin/languages/delete/:id";
 pub const CODE_PATH_ADMIN_LANGUAGES_EDIT: &'static str =
     "/:language_code/admin/languages/edit/:id";
+pub const CODE_PATH_ADMIN_USERS: &'static str = "/:language_code/admin/users";
+pub const CODE_PATH_ADMIN_USERS_ADD: &'static str =
+    "/:language_code/admin/users/add";
+pub const CODE_PATH_ADMIN_USERS_CHANGE_PASSWORD: &'static str =
+    "/:language_code/admin/users/change_password/:id";
+pub const CODE_PATH_ADMIN_USERS_EDIT: &'static str =
+    "/:language_code/admin/users/edit/:id";
 pub const CODE_PATH_HOME: &'static str = "/:language_code/";
 pub const CODE_PATH_LOGIN: &'static str = "/:language_code/login";
 pub const CODE_PATH_LOGOUT: &'static str = "/:language_code/logout";
@@ -160,6 +168,27 @@ pub fn path_admin_languages_edit(
         PARAM_LANGUAGE_CODE,
         language_code.value()
     ).replace(PARAM_ID, &language_id.value().to_string())
+}
+
+pub fn path_admin_users(language_code: &LanguageCode) -> String {
+    CODE_PATH_ADMIN_USERS.replace(PARAM_LANGUAGE_CODE, language_code.value())
+}
+
+pub fn path_admin_users_add(language_code: &LanguageCode) -> String {
+    CODE_PATH_ADMIN_USERS_ADD.replace(
+        PARAM_LANGUAGE_CODE,
+        language_code.value()
+    )
+}
+
+pub fn path_admin_users_edit(
+    language_code: &LanguageCode,
+    user_id: &UserId
+) -> String {
+    CODE_PATH_ADMIN_USERS_EDIT.replace(
+        PARAM_LANGUAGE_CODE,
+        language_code.value()
+    ).replace(PARAM_ID, &user_id.value().to_string())
 }
 
 pub fn path_home(language_code: &LanguageCode) -> String {

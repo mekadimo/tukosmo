@@ -27,9 +27,9 @@ pub struct I18nTextSqlExecutor {
 impl ModelSqlExecutor<
     DbI18nText,
     (
-        diesel::sql_types::Uuid,
-        diesel::sql_types::Text,
         diesel::sql_types::Timestamptz,
+        diesel::sql_types::Text,
+        diesel::sql_types::Uuid,
         diesel::sql_types::Timestamptz,
     ),
     I18nTextSearchCriteria,
@@ -103,9 +103,9 @@ for I18nTextSqlExecutor {
     ) -> BoxedSelectStatement<
         'a,
         (
-            diesel::sql_types::Uuid,
-            diesel::sql_types::Text,
             diesel::sql_types::Timestamptz,
+            diesel::sql_types::Text,
+            diesel::sql_types::Uuid,
             diesel::sql_types::Timestamptz,
         ),
         FromClause<i18n_text::table>,

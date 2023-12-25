@@ -7,6 +7,7 @@ use std::fmt;
 pub enum CoreSubmoduleName {
     Language,
     Shared,
+    User,
 }
 
 #[derive(Clone, Deserialize, PartialEq, Serialize)]
@@ -40,6 +41,7 @@ impl DomainError {
         let prefix = match self.id.module {
             ModuleName::Core(CoreSubmoduleName::Language) => "CORE.LANGUAGE",
             ModuleName::Core(CoreSubmoduleName::Shared) => "CORE.SHARED",
+            ModuleName::Core(CoreSubmoduleName::User) => "CORE.USER",
         };
         let error_code = self.id.error_code.to_string();
         format!("{}.{}", prefix, error_code)

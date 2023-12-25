@@ -15,6 +15,7 @@ actix-identity = { workspace = true, optional = true }
 actix-multipart = { workspace = true, optional = true }
 actix-session = { workspace = true, optional = true }
 actix-web = { workspace = true, optional = true }
+argon2 = { workspace = true, optional = true }
 cfg-if.workspace = true
 chrono.workspace = true
 diesel = { workspace = true, optional = true }
@@ -29,6 +30,7 @@ leptos_router.workspace = true
 openssl = { workspace = true, optional = true }
 rand = { workspace = true, optional = true }
 rcgen = { workspace = true, optional = true }
+regex.workspace = true
 reqwest = { workspace = true, optional = true }
 rustls = { workspace = true, optional = true }
 rustls-pemfile = { workspace = true, optional = true }
@@ -57,6 +59,7 @@ ssr = [
     "dep:actix-multipart",
     "dep:actix-session",
     "dep:actix-web",
+    "dep:argon2",
     "dep:diesel",
     "dep:dotenvy",
     "dep:futures",

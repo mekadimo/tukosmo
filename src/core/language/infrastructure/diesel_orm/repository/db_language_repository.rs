@@ -11,18 +11,18 @@ use tukosmo_domain::core::shared::model::DomainError;
 use super::super::service::LanguageManager;
 
 pub struct DbLanguageRepository {
-    language: LanguageManager,
+    language_manager: LanguageManager,
 }
 
 impl DbLanguageRepository {
     pub fn init(connection: Rc<RefCell<PgConnection>>) -> Self {
-        Self { language: LanguageManager::init(connection) }
+        Self { language_manager: LanguageManager::init(connection) }
     }
 }
 
 impl LanguageRepository for DbLanguageRepository {
     fn add(&mut self, language: Language) -> Result<(), DomainError> {
-        self.language.add(language)?;
+        self.language_manager.add(language)?;
         Ok(())
     }
 
@@ -30,12 +30,12 @@ impl LanguageRepository for DbLanguageRepository {
         &mut self,
         filter_criteria: LanguageSearchFilterCriteria
     ) -> Result<i64, DomainError> {
-        let total = self.language.count(filter_criteria)?;
+        let total = self.language_manager.count(filter_criteria)?;
         Ok(total)
     }
 
     fn delete(&mut self, language_id: LanguageId) -> Result<(), DomainError> {
-        self.language.delete(language_id)?;
+        self.language_manager.delete(language_id)?;
         Ok(())
     }
 
@@ -43,7 +43,7 @@ impl LanguageRepository for DbLanguageRepository {
         &mut self,
         filter_criteria: LanguageSearchFilterCriteria
     ) -> Result<bool, DomainError> {
-        let exists = self.language.exists(filter_criteria)?;
+        let exists = self.language_manager.exists(filter_criteria)?;
         Ok(exists)
     }
 
@@ -51,7 +51,7 @@ impl LanguageRepository for DbLanguageRepository {
         &mut self,
         search_criteria: LanguageSearchCriteria
     ) -> Result<Vec<Language>, DomainError> {
-        let languages = self.language.find(search_criteria)?;
+        let languages = self.language_manager.find(search_criteria)?;
         Ok(languages)
     }
 
@@ -59,12 +59,12 @@ impl LanguageRepository for DbLanguageRepository {
         &mut self,
         language_id: LanguageId
     ) -> Result<Language, DomainError> {
-        let language = self.language.get(language_id)?;
+        let language = self.language_manager.get(language_id)?;
         Ok(language)
     }
 
     fn update(&mut self, language: Language) -> Result<(), DomainError> {
-        self.language.update(language)?;
+        self.language_manager.update(language)?;
         Ok(())
     }
 }

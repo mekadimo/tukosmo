@@ -10,6 +10,7 @@ path = "../../src/lib_application.rs"
 
 [dependencies]
 chrono.workspace = true
+regex.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tukosmo_domain = { path = "../domain" }

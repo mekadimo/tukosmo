@@ -11,6 +11,7 @@ use tukosmo_domain::core::shared::model::TransactionExecutor;
 use tukosmo_domain::core::shared::error;
 
 use crate::core::language::diesel_orm::repository::DbLanguageRepository;
+use crate::core::user::diesel_orm::repository::DbUserRepository;
 
 pub struct DbTransactionExecutor {
     connection: Rc<RefCell<PgConnection>>,
@@ -42,11 +43,15 @@ impl TransactionExecutor for DbTransactionExecutor {
                 let language_repository = DbLanguageRepository::init(
                     Rc::clone(&self.connection)
                 );
+                let user_repository = DbUserRepository::init(
+                    Rc::clone(&self.connection)
+                );
 
                 let transaction = Transaction {
                     language_repository: Rc::new(
                         RefCell::new(language_repository)
                     ),
+                    user_repository: Rc::new(RefCell::new(user_repository)),
                 };
                 Ok(transaction)
             }

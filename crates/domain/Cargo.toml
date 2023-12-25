@@ -9,7 +9,9 @@ path = "../../src/lib_domain.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+argon2 = { workspace = true, optional = true }
 chrono.workspace = true
+regex.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 uuid.workspace = true
@@ -17,4 +19,6 @@ uuid.workspace = true
 [features]
 default = []
 hydrate = []
-ssr = []
+ssr = [
+    "dep:argon2"
+]

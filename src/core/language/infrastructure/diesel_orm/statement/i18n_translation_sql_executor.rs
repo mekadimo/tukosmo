@@ -27,11 +27,11 @@ pub struct I18nTranslationSqlExecutor {
 impl ModelSqlExecutor<
     DbI18nTranslation,
     (
+        diesel::sql_types::Timestamptz,
         diesel::sql_types::Uuid,
         diesel::sql_types::Uuid,
         diesel::sql_types::Uuid,
         diesel::sql_types::Text,
-        diesel::sql_types::Timestamptz,
         diesel::sql_types::Timestamptz,
     ),
     I18nTranslationSearchCriteria,
@@ -132,11 +132,11 @@ for I18nTranslationSqlExecutor {
     ) -> BoxedSelectStatement<
         'a,
         (
+            diesel::sql_types::Timestamptz,
             diesel::sql_types::Uuid,
             diesel::sql_types::Uuid,
             diesel::sql_types::Uuid,
             diesel::sql_types::Text,
-            diesel::sql_types::Timestamptz,
             diesel::sql_types::Timestamptz,
         ),
         FromClause<i18n_translation::table>,

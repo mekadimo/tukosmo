@@ -1,34 +1,51 @@
 CREATE TABLE i18n_text (
-    id            UUID        PRIMARY KEY,
-    default_text  TEXT        NOT NULL,
     creation_date TIMESTAMPTZ NOT NULL,
-    update_date   TIMESTAMPTZ NOT NULL
+    default_text TEXT NOT NULL,
+    id UUID PRIMARY KEY,
+    update_date TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE language (
-    id                UUID        PRIMARY KEY,
-    code              TEXT        NOT NULL
-                                  UNIQUE,
-    original_name     TEXT        NOT NULL,
-    i18n_text_id_name UUID        NOT NULL
-                                  REFERENCES i18n_text,
-    website_title     TEXT        NOT NULL,
-    website_subtitle  TEXT        NOT NULL,
-    creation_date     TIMESTAMPTZ NOT NULL,
-    update_date       TIMESTAMPTZ NOT NULL
+    code TEXT NOT NULL UNIQUE,
+    creation_date TIMESTAMPTZ NOT NULL,
+    i18n_text_id_name UUID NOT NULL REFERENCES i18n_text,
+    id UUID PRIMARY KEY,
+    original_name TEXT NOT NULL,
+    update_date TIMESTAMPTZ NOT NULL,
+    website_subtitle TEXT NOT NULL,
+    website_title TEXT NOT NULL
 );
 
 CREATE TABLE i18n_translation (
-    id            UUID        PRIMARY KEY,
-    i18n_text_id  UUID        NOT NULL
-                              REFERENCES i18n_text ON DELETE CASCADE,
-    language_id   UUID        NOT NULL
-                              REFERENCES language ON DELETE CASCADE,
-    text          TEXT        NOT NULL,
     creation_date TIMESTAMPTZ NOT NULL,
-    update_date   TIMESTAMPTZ NOT NULL,
+    i18n_text_id UUID NOT NULL REFERENCES i18n_text ON DELETE CASCADE,
+    id UUID PRIMARY KEY,
+    language_id UUID NOT NULL REFERENCES language ON DELETE CASCADE,
+    text TEXT NOT NULL,
+    update_date TIMESTAMPTZ NOT NULL,
 
     UNIQUE (i18n_text_id, language_id)
+);
+
+CREATE TABLE user_ (
+    creation_date TIMESTAMPTZ NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    encrypted_password TEXT NOT NULL,
+    i18n_text_id_name UUID NOT NULL REFERENCES i18n_text,
+    id UUID PRIMARY KEY,
+    is_admin BOOLEAN NOT NULL,
+    is_suspended BOOLEAN NOT NULL,
+    update_date TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE user_session (
+    creation_date TIMESTAMPTZ NOT NULL,
+    csrf_token UUID NOT NULL UNIQUE,
+    id UUID PRIMARY KEY,
+    ip TEXT NOT NULL,
+    last_request_date TIMESTAMPTZ NOT NULL,
+    user_agent_request_header TEXT NOT NULL,
+    user_id UUID NOT NULL REFERENCES user_
 );
 
 INSERT INTO i18n_text (id, default_text, creation_date, update_date)

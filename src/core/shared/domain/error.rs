@@ -143,6 +143,12 @@ pub const FIELD_CANNOT_BE_EMPTY: DomainError = get_domain_error(
     DomainErrorVisibility::Public
 );
 
+pub const INVALID_EMAIL: DomainError = get_domain_error(
+    "INVALID_EMAIL",
+    "This text is not a valid email.",
+    DomainErrorVisibility::Public
+);
+
 pub const INVALID_TOML_EXTENSION: DomainError = get_domain_error(
     "INVALID_TOML_EXTENSION",
     "File doesn't have a valid TOML extension.",

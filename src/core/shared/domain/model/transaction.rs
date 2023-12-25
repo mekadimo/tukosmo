@@ -3,9 +3,11 @@ use std::rc::Rc;
 
 use crate::core::language::repository::LanguageRepository;
 use crate::core::shared::model::DomainError;
+use crate::core::user::repository::UserRepository;
 
 pub struct Transaction {
     pub language_repository: Rc<RefCell<dyn LanguageRepository>>,
+    pub user_repository: Rc<RefCell<dyn UserRepository>>,
 }
 
 pub trait TransactionExecutor {

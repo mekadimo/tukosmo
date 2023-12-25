@@ -10,59 +10,53 @@ use diesel;
 use std::cell::RefCell;
 use std::ops::DerefMut;
 use std::rc::Rc;
-use tukosmo_domain::core::language::model::LanguageSearchCriteria;
-use tukosmo_domain::core::language::model::LanguageSearchCriteriaOrderBy;
-use tukosmo_domain::core::language::model::LanguageSearchFilterCriteria;
 use tukosmo_domain::core::shared::error;
 use tukosmo_domain::core::shared::model::DomainError;
+use tukosmo_domain::core::user::model::UserSessionSearchCriteria;
+use tukosmo_domain::core::user::model::UserSessionSearchCriteriaOrderBy;
+use tukosmo_domain::core::user::model::UserSessionSearchFilterCriteria;
 
-use crate::core::shared::diesel_orm::schema::language;
+use crate::core::shared::diesel_orm::schema::user_session;
 use crate::core::shared::diesel_orm::statement::ModelSqlExecutor;
-use super::super::model::DbLanguage;
+use super::super::model::DbUserSession;
 
-pub struct LanguageSqlExecutor {
+pub struct UserSessionSqlExecutor {
     connection: Rc<RefCell<PgConnection>>,
 }
 
 impl ModelSqlExecutor<
-    DbLanguage,
+    DbUserSession,
     (
-        diesel::sql_types::Text,
         diesel::sql_types::Timestamptz,
         diesel::sql_types::Uuid,
         diesel::sql_types::Uuid,
         diesel::sql_types::Text,
         diesel::sql_types::Timestamptz,
         diesel::sql_types::Text,
-        diesel::sql_types::Text,
+        diesel::sql_types::Uuid,
     ),
-    LanguageSearchCriteria,
-    LanguageSearchFilterCriteria,
-    language::table
+    UserSessionSearchCriteria,
+    UserSessionSearchFilterCriteria,
+    user_session::table
 >
-for LanguageSqlExecutor {
+for UserSessionSqlExecutor {
     fn delete(
         &mut self,
-        filter_criteria: LanguageSearchFilterCriteria
+        filter_criteria: UserSessionSearchFilterCriteria
     ) -> Result<(), DomainError> {
         let mut connection = self.connection.borrow_mut();
         let connection = connection.deref_mut();
 
-        let mut statement = diesel::delete(language::table).into_boxed();
+        let mut statement = diesel::delete(user_session::table).into_boxed();
 
-        if let Some(language_id) = filter_criteria.id {
+        if let Some(user_session_id) = filter_criteria.id {
             statement = statement.filter(
-                language::id.eq(language_id.value().clone())
+                user_session::id.eq(user_session_id.value().clone())
             );
         }
-        if let Some(code) = filter_criteria.code {
+        if let Some(not_user_session_id) = filter_criteria.not_id {
             statement = statement.filter(
-                language::code.eq(code.value().to_string())
-            );
-        }
-        if let Some(not_language_id) = filter_criteria.not_id {
-            statement = statement.filter(
-                language::id.ne(not_language_id.value().clone())
+                user_session::id.ne(not_user_session_id.value().clone())
             );
         }
 
@@ -78,8 +72,8 @@ for LanguageSqlExecutor {
         Rc::clone(&self.connection)
     }
 
-    fn get_table() -> language::table {
-        language::table
+    fn get_table() -> user_session::table {
+        user_session::table
     }
 
     fn init(connection: Rc<RefCell<PgConnection>>) -> Self {
@@ -88,24 +82,30 @@ for LanguageSqlExecutor {
 
     fn select(
         &mut self,
-        search_criteria: LanguageSearchCriteria
-    ) -> Result<Vec<DbLanguage>, DomainError> {
+        search_criteria: UserSessionSearchCriteria
+    ) -> Result<Vec<DbUserSession>, DomainError> {
         let mut connection = self.connection.borrow_mut();
         let connection = connection.deref_mut();
 
         let mut query = Self::select_query(search_criteria.filter);
         if let Some(order_by) = search_criteria.order_by {
             match order_by {
-                LanguageSearchCriteriaOrderBy::CreationDate => {
-                    query = query.order(language::creation_date.asc());
+                UserSessionSearchCriteriaOrderBy::CreationDateAsc => {
+                    query = query.order(user_session::creation_date.asc());
                 }
-                LanguageSearchCriteriaOrderBy::OriginalName => {
-                    query = query.order(language::original_name.asc());
+                UserSessionSearchCriteriaOrderBy::CreationDateDesc => {
+                    query = query.order(user_session::creation_date.desc());
+                }
+                UserSessionSearchCriteriaOrderBy::LastRequestDateAsc => {
+                    query = query.order(user_session::last_request_date.asc());
+                }
+                UserSessionSearchCriteriaOrderBy::LastRequestDateDesc => {
+                    query = query.order(user_session::last_request_date.desc());
                 }
             }
         }
 
-        let select = query.select(DbLanguage::as_select());
+        let select = query.select(DbUserSession::as_select());
 
         let results = (
             if let Some(pagination) = search_criteria.pagination {
@@ -123,46 +123,47 @@ for LanguageSqlExecutor {
     }
 
     fn select_query<'a>(
-        filter_criteria: LanguageSearchFilterCriteria
+        filter_criteria: UserSessionSearchFilterCriteria
     ) -> BoxedSelectStatement<
         'a,
         (
-            diesel::sql_types::Text,
             diesel::sql_types::Timestamptz,
             diesel::sql_types::Uuid,
             diesel::sql_types::Uuid,
             diesel::sql_types::Text,
             diesel::sql_types::Timestamptz,
             diesel::sql_types::Text,
-            diesel::sql_types::Text,
+            diesel::sql_types::Uuid,
         ),
-        FromClause<language::table>,
+        FromClause<user_session::table>,
         Pg
     > {
-        let mut query = language::table.into_boxed();
+        let mut query = user_session::table.into_boxed();
 
-        if let Some(language_id) = filter_criteria.id {
-            query = query.filter(language::id.eq(language_id.value().clone()));
-        }
-        if let Some(code) = filter_criteria.code {
-            query = query.filter(language::code.eq(code.value().to_string()));
-        }
-        if let Some(not_language_id) = filter_criteria.not_id {
+        if let Some(user_session_id) = filter_criteria.id {
             query = query.filter(
-                language::id.ne(not_language_id.value().clone())
+                user_session::id.eq(user_session_id.value().clone())
+            );
+        }
+        if let Some(not_user_session_id) = filter_criteria.not_id {
+            query = query.filter(
+                user_session::id.ne(not_user_session_id.value().clone())
             );
         }
 
         query
     }
 
-    fn update(&mut self, db_language: &DbLanguage) -> Result<(), DomainError> {
+    fn update(
+        &mut self,
+        db_user_session: &DbUserSession
+    ) -> Result<(), DomainError> {
         let mut connection = self.connection.borrow_mut();
         let connection = connection.deref_mut();
 
         let result = diesel
-            ::update(language::table.find(db_language.id))
-            .set(db_language)
+            ::update(user_session::table.find(db_user_session.id))
+            .set(db_user_session)
             .execute(connection);
 
         match result {
@@ -175,29 +176,24 @@ for LanguageSqlExecutor {
 
     fn upsert_in_bulk(
         &mut self,
-        db_languages: Vec<DbLanguage>
+        db_user_sessions: Vec<DbUserSession>
     ) -> Result<(), DomainError> {
         let mut connection = self.connection.borrow_mut();
         let connection = connection.deref_mut();
 
         let result = diesel
-            ::insert_into(language::table)
-            .values(db_languages)
-            .on_conflict(language::id)
+            ::insert_into(user_session::table)
+            .values(db_user_sessions)
+            .on_conflict(user_session::id)
             .do_update()
             .set((
-                language::code.eq(diesel::pg::upsert::excluded(language::code)),
-                language::update_date.eq(
-                    diesel::pg::upsert::excluded(language::update_date)
+                user_session::csrf_token.eq(
+                    diesel::pg::upsert::excluded(user_session::csrf_token)
                 ),
-                language::original_name.eq(
-                    diesel::pg::upsert::excluded(language::original_name)
-                ),
-                language::website_title.eq(
-                    diesel::pg::upsert::excluded(language::website_title)
-                ),
-                language::website_subtitle.eq(
-                    diesel::pg::upsert::excluded(language::website_subtitle)
+                user_session::last_request_date.eq(
+                    diesel::pg::upsert::excluded(
+                        user_session::last_request_date
+                    )
                 ),
             ))
             .execute(connection);

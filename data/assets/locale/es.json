@@ -76,6 +76,10 @@
         "CORE.SHARED.TEXT_EXCEEDS_MAX_LENGTH": "El texto sobrepasa la longitud máxima.",
         "CORE.SHARED.UNDESIRED_DELETES_ON_DATABASE": "El DELETE ejecutado intentó eliminar más de una fila.",
         "CORE.SHARED.UNDESIRED_UPDATES_ON_DATABASE": "El UPDATE ejecutado intentó modificar más de una fila.",
+        "CORE.USER.CANNOT_DELETE_LAST_ADMIN_USER_LEFT": "No se puede eliminar el último usuario administrador que queda.",
+        "CORE.USER.USER_NOT_FOUND": "No se encontró el usuario.",
+        "CORE.USER.USER_PASSWORD_NOT_CORRECT": "Contraseña de usuario no correcta.",
+        "CORE.USER.USER_SESSION_NOT_FOUND": "No se encontró la sesión de usuario.",
         "UNKNOWN": "Error desconocido."
     },
     "language": {

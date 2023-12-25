@@ -76,6 +76,10 @@
         "CORE.SHARED.TEXT_EXCEEDS_MAX_LENGTH": "The text exceeds the max length.",
         "CORE.SHARED.UNDESIRED_DELETES_ON_DATABASE": "The executed DELETE tried to remove more than one row.",
         "CORE.SHARED.UNDESIRED_UPDATES_ON_DATABASE": "The executed UPDATE tried to change more than one row.",
+        "CORE.USER.CANNOT_DELETE_LAST_ADMIN_USER_LEFT": "Cannot delete last admin user left.",
+        "CORE.USER.USER_NOT_FOUND": "User not found.",
+        "CORE.USER.USER_PASSWORD_NOT_CORRECT": "User password not correct.",
+        "CORE.USER.USER_SESSION_NOT_FOUND": "User session not found.",
         "UNKNOWN": "Unknown error."
     },
     "language": {

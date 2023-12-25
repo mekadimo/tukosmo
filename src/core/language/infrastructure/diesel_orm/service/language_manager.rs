@@ -20,8 +20,8 @@ use super::super::statement::LanguageSqlExecutor;
 
 pub struct LanguageManager {
     i18n_text_manager: I18nTextManager,
-    i18n_translation: I18nTranslationSqlExecutor,
-    language: LanguageSqlExecutor,
+    i18n_translation_sql: I18nTranslationSqlExecutor,
+    language_sql: LanguageSqlExecutor,
 }
 
 impl LanguageManager {
@@ -29,7 +29,7 @@ impl LanguageManager {
         self.i18n_text_manager.add(language.name.clone())?;
 
         let db_language = DbLanguage::from_domain(language.clone());
-        self.language.insert(db_language)?;
+        self.language_sql.insert(db_language)?;
 
         let original_name_translation = I18nTranslation::new(
             language.id,
@@ -39,7 +39,7 @@ impl LanguageManager {
             original_name_translation,
             language.name.id
         );
-        self.i18n_translation.insert(db_original_name_translation)?;
+        self.i18n_translation_sql.insert(db_original_name_translation)?;
 
         Ok(())
     }
@@ -48,7 +48,7 @@ impl LanguageManager {
         &mut self,
         filter_criteria: LanguageSearchFilterCriteria
     ) -> Result<i64, DomainError> {
-        let total = self.language.select_count(filter_criteria)?;
+        let total = self.language_sql.select_count(filter_criteria)?;
         Ok(total)
     }
 
@@ -56,7 +56,7 @@ impl LanguageManager {
         &mut self,
         language_id: LanguageId
     ) -> Result<(), DomainError> {
-        let total_languages = self.language.select_count(
+        let total_languages = self.language_sql.select_count(
             LanguageSearchCriteria::all().filter
         )?;
         if total_languages == 1 {
@@ -64,7 +64,7 @@ impl LanguageManager {
         }
 
         let language = self.get(language_id)?;
-        self.language.delete(
+        self.language_sql.delete(
             LanguageSearchCriteria::has_id(language.id).filter
         )?;
         self.i18n_text_manager.delete(language.name.id)?;
@@ -76,7 +76,7 @@ impl LanguageManager {
         &mut self,
         filter_criteria: LanguageSearchFilterCriteria
     ) -> Result<bool, DomainError> {
-        let exists = self.language.select_exists(filter_criteria)?;
+        let exists = self.language_sql.select_exists(filter_criteria)?;
         Ok(exists)
     }
 
@@ -84,7 +84,7 @@ impl LanguageManager {
         &mut self,
         search_criteria: LanguageSearchCriteria
     ) -> Result<Vec<Language>, DomainError> {
-        let db_languages = self.language.select(search_criteria)?;
+        let db_languages = self.language_sql.select(search_criteria)?;
         let language_name_ids = db_languages
             .iter()
             .map(|l| I18nTextId::from(l.i18n_text_id_name.clone()))
@@ -113,7 +113,7 @@ impl LanguageManager {
         &mut self,
         language_id: LanguageId
     ) -> Result<Language, DomainError> {
-        let db_languages = self.language.select(
+        let db_languages = self.language_sql.select(
             LanguageSearchCriteria::has_id(language_id)
         )?;
         let db_language = db_languages
@@ -133,16 +133,16 @@ impl LanguageManager {
     pub fn init(connection: Rc<RefCell<PgConnection>>) -> Self {
         Self {
             i18n_text_manager: I18nTextManager::init(Rc::clone(&connection)),
-            i18n_translation: I18nTranslationSqlExecutor::init(
+            i18n_translation_sql: I18nTranslationSqlExecutor::init(
                 Rc::clone(&connection)
             ),
-            language: LanguageSqlExecutor::init(connection),
+            language_sql: LanguageSqlExecutor::init(connection),
         }
     }
 
     pub fn update(&mut self, language: Language) -> Result<(), DomainError> {
         let db_language = DbLanguage::from_domain(language.clone());
-        self.language.update(&db_language)?;
+        self.language_sql.update(&db_language)?;
 
         self.i18n_text_manager.update(language.name)?;
 

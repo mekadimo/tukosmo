@@ -88,7 +88,7 @@ impl LanguageManager {
         let db_languages = self.language_sql.select(search_criteria)?;
         let language_name_ids = db_languages
             .iter()
-            .map(|l| I18nTextId::from(l.i18n_text_id_name.clone()))
+            .map(|l| I18nTextId::from_unvalidated(l.i18n_text_id_name.clone()))
             .collect();
 
         let language_names =
@@ -123,7 +123,7 @@ impl LanguageManager {
             .ok_or(error::LANGUAGE_NOT_FOUND)?;
 
         let language_name = self.i18n_text_manager.get(
-            I18nTextId::from(db_language.i18n_text_id_name.clone())
+            I18nTextId::from_unvalidated(db_language.i18n_text_id_name.clone())
         )?;
 
         let language = db_language.to_domain(language_name);

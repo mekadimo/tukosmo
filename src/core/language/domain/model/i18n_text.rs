@@ -90,7 +90,7 @@ impl I18nText {
                 if !text_value.trim().is_empty() {
                     self.translations.push(
                         I18nTranslation::new(
-                            LanguageId::from(language_id),
+                            LanguageId::from_unvalidated(language_id),
                             I18nTranslationText::new(text_value)
                         )
                     );
@@ -143,7 +143,7 @@ impl I18nText {
             .filter(|(_, value)| { !value.trim().is_empty() })
             .map(|(language_id, text_value)| {
                 I18nTranslation::new(
-                    LanguageId::from(*language_id),
+                    LanguageId::from_unvalidated(*language_id),
                     I18nTranslationText::new(text_value.clone())
                 )
             })
@@ -165,7 +165,7 @@ impl I18nText {
 }
 
 impl I18nTextCreationDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -180,7 +180,7 @@ impl I18nTextCreationDate {
 }
 
 impl I18nTextDefaultText {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -200,7 +200,7 @@ impl I18nTextDefaultText {
 }
 
 impl I18nTextId {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -242,7 +242,7 @@ impl I18nTextSearchCriteria {
 }
 
 impl I18nTextUpdateDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 

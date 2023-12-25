@@ -138,7 +138,7 @@ impl Language {
 }
 
 impl LanguageCode {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -169,7 +169,7 @@ impl LanguageCode {
 }
 
 impl LanguageCreationDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -184,7 +184,7 @@ impl LanguageCreationDate {
 }
 
 impl LanguageId {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -195,7 +195,7 @@ impl LanguageId {
         }
     }
 
-    fn new() -> Self {
+    pub fn new() -> Self {
         let value = Uuid::new_v4();
         Self(value)
     }
@@ -206,7 +206,7 @@ impl LanguageId {
 }
 
 impl LanguageOriginalName {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -284,7 +284,7 @@ impl LanguageSearchCriteria {
 }
 
 impl LanguageUpdateDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -299,7 +299,7 @@ impl LanguageUpdateDate {
 }
 
 impl LanguageWebsiteSubtitle {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -323,7 +323,7 @@ impl LanguageWebsiteSubtitle {
 }
 
 impl LanguageWebsiteTitle {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 

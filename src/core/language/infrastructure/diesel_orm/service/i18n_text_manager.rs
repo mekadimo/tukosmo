@@ -29,7 +29,7 @@ impl I18nTextManager {
                 .map(|t| {
                     DbI18nTranslation::from_domain(
                         t,
-                        I18nTextId::from(db_i18n_text.id.clone())
+                        I18nTextId::from_unvalidated(db_i18n_text.id.clone())
                     )
                 })
                 .collect();
@@ -80,7 +80,7 @@ impl I18nTextManager {
         )?;
         let i18n_text_ids = db_i18n_texts
             .iter()
-            .map(|i| I18nTextId::from(i.id.clone()))
+            .map(|i| I18nTextId::from_unvalidated(i.id.clone()))
             .collect();
 
         let db_i18n_translations = self.i18n_translation_sql.select(

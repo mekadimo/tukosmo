@@ -66,18 +66,24 @@ impl DbUser {
     }
 
     pub fn get_encrypted_password(self) -> UserEncryptedPassword {
-        UserEncryptedPassword::from(self.encrypted_password.clone())
+        UserEncryptedPassword::from_unvalidated(self.encrypted_password.clone())
     }
 
     pub fn to_domain(self, user_name: I18nText) -> User {
         User {
-            creation_date: UserCreationDate::from(self.creation_date.clone()),
-            email: UserEmail::from(self.email.clone()),
-            id: UserId::from(self.id.clone()),
-            is_admin: UserIsAdmin::from(self.is_admin.clone()),
-            is_suspended: UserIsSuspended::from(self.is_suspended.clone()),
+            creation_date: UserCreationDate::from_unvalidated(
+                self.creation_date.clone()
+            ),
+            email: UserEmail::from_unvalidated(self.email.clone()),
+            id: UserId::from_unvalidated(self.id.clone()),
+            is_admin: UserIsAdmin::from_unvalidated(self.is_admin.clone()),
+            is_suspended: UserIsSuspended::from_unvalidated(
+                self.is_suspended.clone()
+            ),
             name: user_name,
-            update_date: UserUpdateDate::from(self.update_date.clone()),
+            update_date: UserUpdateDate::from_unvalidated(
+                self.update_date.clone()
+            ),
         }
     }
 }

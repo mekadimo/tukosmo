@@ -19,7 +19,7 @@ pub enum BrowserEnum {
 pub struct UserBrowser(BrowserEnum);
 
 impl UserBrowser {
-    pub fn from(value: BrowserEnum) -> Self {
+    pub fn from_unvalidated(value: BrowserEnum) -> Self {
         Self(value)
     }
 

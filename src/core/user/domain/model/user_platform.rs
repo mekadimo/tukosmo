@@ -47,7 +47,7 @@ pub enum PlatformLinuxEnum {
 pub struct UserPlatform(PlatformEnum);
 
 impl UserPlatform {
-    pub fn from(value: PlatformEnum) -> Self {
+    pub fn from_unvalidated(value: PlatformEnum) -> Self {
         Self(value)
     }
 

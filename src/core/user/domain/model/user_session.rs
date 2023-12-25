@@ -111,7 +111,7 @@ impl UserSession {
 }
 
 impl UserSessionCreationDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -126,7 +126,7 @@ impl UserSessionCreationDate {
 }
 
 impl UserSessionCsrfToken {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -148,7 +148,7 @@ impl UserSessionCsrfToken {
 }
 
 impl UserSessionId {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -170,7 +170,7 @@ impl UserSessionId {
 }
 
 impl UserSessionIp {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -184,7 +184,7 @@ impl UserSessionIp {
 }
 
 impl UserSessionLastRequestDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -231,7 +231,7 @@ impl UserSessionSearchCriteria {
 }
 
 impl UserSessionUserAgentRequestHeader {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 

@@ -67,7 +67,7 @@ impl UserManager {
 
     pub fn delete(&mut self, user_id: UserId) -> Result<(), DomainError> {
         let total_users = self.user_sql.select_count(
-            UserSearchCriteria::is_admin(UserIsAdmin::from(true)).filter
+            UserSearchCriteria::is_admin(UserIsAdmin::new(true)).filter
         )?;
         if total_users == 1 {
             return Err(error::CANNOT_DELETE_LAST_ADMIN_USER_LEFT);
@@ -95,7 +95,7 @@ impl UserManager {
         let db_users = self.user_sql.select(search_criteria)?;
         let user_name_ids = db_users
             .iter()
-            .map(|l| I18nTextId::from(l.i18n_text_id_name.clone()))
+            .map(|l| I18nTextId::from_unvalidated(l.i18n_text_id_name.clone()))
             .collect();
 
         let user_names = self.i18n_text_manager.get_in_bulk(user_name_ids)?;
@@ -123,7 +123,7 @@ impl UserManager {
         let db_user = db_users.first().cloned().ok_or(error::USER_NOT_FOUND)?;
 
         let user_name = self.i18n_text_manager.get(
-            I18nTextId::from(db_user.i18n_text_id_name.clone())
+            I18nTextId::from_unvalidated(db_user.i18n_text_id_name.clone())
         )?;
 
         let user = db_user.to_domain(user_name);
@@ -141,7 +141,7 @@ impl UserManager {
         let db_user = db_users.first().cloned().ok_or(error::USER_NOT_FOUND)?;
 
         let user_name = self.i18n_text_manager.get(
-            I18nTextId::from(db_user.i18n_text_id_name.clone())
+            I18nTextId::from_unvalidated(db_user.i18n_text_id_name.clone())
         )?;
 
         let user = db_user.to_domain(user_name);
@@ -167,7 +167,9 @@ impl UserManager {
 
         let db_user = DbUser::from_domain(
             user.clone(),
-            UserEncryptedPassword::from(db_previous_user.encrypted_password)
+            UserEncryptedPassword::from_unvalidated(
+                db_previous_user.encrypted_password
+            )
         );
         self.user_sql.update(&db_user)?;
 

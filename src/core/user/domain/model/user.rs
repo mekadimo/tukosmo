@@ -132,7 +132,7 @@ impl User {
 }
 
 impl UserCreationDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -147,7 +147,7 @@ impl UserCreationDate {
 }
 
 impl UserEmail {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -181,7 +181,7 @@ impl UserEmail {
 }
 
 impl UserId {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -203,7 +203,7 @@ impl UserId {
 }
 
 impl UserIsAdmin {
-    pub fn from(value: bool) -> Self {
+    pub fn from_unvalidated(value: bool) -> Self {
         Self(value)
     }
 
@@ -217,7 +217,7 @@ impl UserIsAdmin {
 }
 
 impl UserIsSuspended {
-    pub fn from(value: bool) -> Self {
+    pub fn from_unvalidated(value: bool) -> Self {
         Self(value)
     }
 
@@ -317,7 +317,7 @@ impl UserSearchCriteria {
 }
 
 impl UserUpdateDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 

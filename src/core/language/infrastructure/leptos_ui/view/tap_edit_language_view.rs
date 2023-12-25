@@ -129,21 +129,23 @@ fn TapEditLanguageViewContent(language: Language) -> impl IntoView {
                             server_response_languages,
                             move |languages| {
                                 let dto_form_code = dto_form_code.clone();
-                                let lang_code = if
+                                let effective_language_code = if
                                     current_language_id.value() ==
                                     stored_language_id.get_value().value()
                                 {
-                                    dto_form_code
+                                    LanguageCode::from_unvalidated(
+                                        dto_form_code
+                                    )
                                 } else {
-                                    current_language_code.value().to_string()
+                                    current_language_code.clone()
                                 };
                                 global_context.refresh_languages(
-                                    Some(lang_code.clone()),
+                                    Some(effective_language_code.clone()),
                                     languages
                                 );
                                 let navigate = use_navigate();
                                 let path = navigation::path_admin_languages(
-                                    &LanguageCode::from(lang_code)
+                                    &effective_language_code
                                 );
                                 navigate(&path, NavigateOptions::default());
                             },

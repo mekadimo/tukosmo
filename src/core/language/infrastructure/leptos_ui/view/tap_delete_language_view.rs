@@ -123,20 +123,16 @@ fn TapDeleteLanguageViewContent(language: Language) -> impl IntoView {
                         manage_response(
                             server_response_languages,
                             move |languages| {
-                                let lang_code = if
+                                let effective_language_code = if
                                     current_language_id.value() ==
                                     stored_language_id.get_value().value()
                                 {
                                     None
                                 } else {
-                                    Some(
-                                        current_language_code
-                                            .value()
-                                            .to_string()
-                                    )
+                                    Some(current_language_code.clone())
                                 };
                                 global_context.refresh_languages(
-                                    lang_code,
+                                    effective_language_code,
                                     languages
                                 );
 

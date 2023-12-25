@@ -61,13 +61,13 @@ impl DbI18nTranslation {
 
     pub fn to_domain(self) -> I18nTranslation {
         I18nTranslation {
-            creation_date: I18nTranslationCreationDate::from(
+            creation_date: I18nTranslationCreationDate::from_unvalidated(
                 self.creation_date.clone()
             ),
-            id: I18nTranslationId::from(self.id.clone()),
-            language_id: LanguageId::from(self.language_id.clone()),
-            text: I18nTranslationText::from(self.text.clone()),
-            update_date: I18nTranslationUpdateDate::from(
+            id: I18nTranslationId::from_unvalidated(self.id.clone()),
+            language_id: LanguageId::from_unvalidated(self.language_id.clone()),
+            text: I18nTranslationText::from_unvalidated(self.text.clone()),
+            update_date: I18nTranslationUpdateDate::from_unvalidated(
                 self.update_date.clone()
             ),
         }

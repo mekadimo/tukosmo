@@ -26,7 +26,7 @@ impl UserEncryptedPassword {
         &self.0
     }
 
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 

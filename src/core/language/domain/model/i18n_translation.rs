@@ -65,7 +65,7 @@ impl I18nTranslation {
 }
 
 impl I18nTranslationCreationDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 
@@ -80,7 +80,7 @@ impl I18nTranslationCreationDate {
 }
 
 impl I18nTranslationId {
-    pub fn from(value: Uuid) -> Self {
+    pub fn from_unvalidated(value: Uuid) -> Self {
         Self(value)
     }
 
@@ -150,7 +150,7 @@ impl I18nTranslationSearchCriteria {
 }
 
 impl I18nTranslationText {
-    pub fn from(value: String) -> Self {
+    pub fn from_unvalidated(value: String) -> Self {
         Self(value)
     }
 
@@ -164,7 +164,7 @@ impl I18nTranslationText {
 }
 
 impl I18nTranslationUpdateDate {
-    pub fn from(value: DateTime<Utc>) -> Self {
+    pub fn from_unvalidated(value: DateTime<Utc>) -> Self {
         Self(value)
     }
 

@@ -6,6 +6,7 @@ use leptos::create_signal;
 use leptos::use_context;
 
 use tukosmo_domain::core::language::model::Language;
+use tukosmo_domain::core::language::model::LanguageCode;
 use tukosmo_domain::core::shared::model::LocalI18n;
 
 #[derive(Copy, Clone, Debug)]
@@ -88,14 +89,14 @@ impl GlobalContext {
 
     pub fn refresh_languages(
         &self,
-        current_language_code: Option<String>,
+        current_language_code: Option<LanguageCode>,
         languages: Vec<Language>
     ) {
         let current_language: Language = match current_language_code {
-            Some(language_code) => {
+            Some(current_language_code) => {
                 languages
                     .iter()
-                    .find(|l| l.code.value() == &language_code)
+                    .find(|l| l.code.value() == current_language_code.value())
                     // TODO: Raise error if language_code is not in the list;
                     // or, maybe, try to redirect using the default language code
                     // (at this point, we can be sure the current language was deleted)

@@ -53,11 +53,8 @@ pub fn TapAddLanguageView() -> impl IntoView {
                         manage_response(
                             server_response_languages,
                             move |languages| {
-                                let lang_code = current_language_code
-                                    .value()
-                                    .to_string();
                                 global_context.refresh_languages(
-                                    Some(lang_code),
+                                    Some(current_language_code.clone()),
                                     languages
                                 );
                                 let navigate = use_navigate();

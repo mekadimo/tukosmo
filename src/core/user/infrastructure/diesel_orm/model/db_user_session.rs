@@ -66,22 +66,24 @@ impl DbUserSession {
             browser: UserBrowser::from_user_agent(
                 &self.user_agent_request_header
             ),
-            creation_date: UserSessionCreationDate::from(
+            creation_date: UserSessionCreationDate::from_unvalidated(
                 self.creation_date.clone()
             ),
-            csrf_token: UserSessionCsrfToken::from(self.csrf_token.clone()),
-            id: UserSessionId::from(self.id.clone()),
-            ip: UserSessionIp::from(self.ip.clone()),
-            last_request_date: UserSessionLastRequestDate::from(
+            csrf_token: UserSessionCsrfToken::from_unvalidated(
+                self.csrf_token.clone()
+            ),
+            id: UserSessionId::from_unvalidated(self.id.clone()),
+            ip: UserSessionIp::from_unvalidated(self.ip.clone()),
+            last_request_date: UserSessionLastRequestDate::from_unvalidated(
                 self.last_request_date.clone()
             ),
             platform: UserPlatform::from_user_agent(
                 &self.user_agent_request_header
             ),
-            user_agent_request_header: UserSessionUserAgentRequestHeader::from(
+            user_agent_request_header: UserSessionUserAgentRequestHeader::from_unvalidated(
                 self.user_agent_request_header.clone()
             ),
-            user_id: UserId::from(self.user_id.clone()),
+            user_id: UserId::from_unvalidated(self.user_id.clone()),
         }
     }
 }

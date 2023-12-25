@@ -54,13 +54,17 @@ impl DbI18nText {
             .map(|t| t.clone().to_domain())
             .collect();
         I18nText {
-            creation_date: I18nTextCreationDate::from(
+            creation_date: I18nTextCreationDate::from_unvalidated(
                 self.creation_date.clone()
             ),
-            default_text: I18nTextDefaultText::from(self.default_text.clone()),
-            id: I18nTextId::from(self.id.clone()),
+            default_text: I18nTextDefaultText::from_unvalidated(
+                self.default_text.clone()
+            ),
+            id: I18nTextId::from_unvalidated(self.id.clone()),
             translations,
-            update_date: I18nTextUpdateDate::from(self.update_date.clone()),
+            update_date: I18nTextUpdateDate::from_unvalidated(
+                self.update_date.clone()
+            ),
         }
     }
 }

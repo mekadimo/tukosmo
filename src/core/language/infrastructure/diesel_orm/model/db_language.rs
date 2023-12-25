@@ -62,20 +62,22 @@ impl DbLanguage {
 
     pub fn to_domain(self, language_name: I18nText) -> Language {
         Language {
-            code: LanguageCode::from(self.code.clone()),
-            creation_date: LanguageCreationDate::from(
+            code: LanguageCode::from_unvalidated(self.code.clone()),
+            creation_date: LanguageCreationDate::from_unvalidated(
                 self.creation_date.clone()
             ),
             name: language_name,
-            id: LanguageId::from(self.id.clone()),
-            original_name: LanguageOriginalName::from(
+            id: LanguageId::from_unvalidated(self.id.clone()),
+            original_name: LanguageOriginalName::from_unvalidated(
                 self.original_name.clone()
             ),
-            update_date: LanguageUpdateDate::from(self.update_date.clone()),
-            website_subtitle: LanguageWebsiteSubtitle::from(
+            update_date: LanguageUpdateDate::from_unvalidated(
+                self.update_date.clone()
+            ),
+            website_subtitle: LanguageWebsiteSubtitle::from_unvalidated(
                 self.website_subtitle.clone()
             ),
-            website_title: LanguageWebsiteTitle::from(
+            website_title: LanguageWebsiteTitle::from_unvalidated(
                 self.website_title.clone()
             ),
         }

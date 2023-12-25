@@ -30,16 +30,16 @@ impl LanguageUseCase {
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
 
-            let language_code = LanguageCode::from(dto.form.code.clone());
+            let language_code = LanguageCode::new(dto.form.code.clone())?;
             let language_code_already_exists = language_repository.exists(
-                LanguageSearchCriteria::has_code(language_code).filter
+                LanguageSearchCriteria::has_code(language_code.clone()).filter
             )?;
             if language_code_already_exists {
                 return Err(error::LANGUAGE_CODE_ALREADY_EXISTS);
             }
 
             let language = Language::new(
-                LanguageCode::new(dto.form.code)?,
+                language_code,
                 dto.form.name,
                 LanguageOriginalName::new(dto.form.original_name)?,
                 LanguageWebsiteTitle::new(dto.form.website_title)?,
@@ -74,10 +74,10 @@ impl LanguageUseCase {
             let mut language_repository =
                 transaction.language_repository.borrow_mut();
 
-            let language_code = LanguageCode::from(dto.form.code.clone());
+            let language_code = LanguageCode::new(dto.form.code.clone())?;
             let other_language_has_same_code = language_repository.exists(
                 LanguageSearchCriteria::has_code_and_not_id(
-                    language_code,
+                    language_code.clone(),
                     language_id.clone()
                 ).filter
             )?;
@@ -87,7 +87,7 @@ impl LanguageUseCase {
 
             let mut language = language_repository.get(language_id)?;
             language.modify(
-                LanguageCode::new(dto.form.code)?,
+                language_code,
                 dto.form.name,
                 LanguageOriginalName::new(dto.form.original_name)?,
                 LanguageWebsiteTitle::new(dto.form.website_title)?,
